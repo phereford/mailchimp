@@ -61,7 +61,7 @@ defmodule Mailchimp.Campaign do
     {:ok, response} = HTTPClient.get("/campaigns", [], params: query_params)
     case response do
       %Response{status_code: 200, body: body} ->
-        {:ok, Enum.map(body.campaigns, &new(&1))}
+        {:ok, {body.total_items, Enum.map(body.campaigns, &new(&1))}}
 
       %Response{status_code: _, body: body} ->
         {:error, body}
